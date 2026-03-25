@@ -35,7 +35,7 @@ The basic usage is as follows:
 ```python
 import numpy as np
 import xarray as xr
-from xarray_schema import DataArraySchema, DatasetSchema, CoordsSchema
+from xarrera import DataArraySchema, DatasetSchema, CoordsSchema
 
 da = xr.DataArray(np.ones(4, dtype='i4'), dims=['x'], name='foo')
 
@@ -55,7 +55,7 @@ schema_ds.validate(da.to_dataset())
 Each component of the Xarray data model is implemented as a stand alone class:
 
 ```python
-from xarray_schema.components import (
+from xarrera.components import (
     DTypeSchema,
     DimsSchema,
     ShapeSchema,

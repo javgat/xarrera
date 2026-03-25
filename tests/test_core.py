@@ -4,9 +4,9 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from xarray_schema import DataArraySchema, DatasetSchema
-from xarray_schema.base import SchemaError
-from xarray_schema.components import (
+from xarrera import DataArraySchema, DatasetSchema
+from xarrera.base import SchemaError
+from xarrera.components import (
     ArrayTypeSchema,
     AttrSchema,
     AttrsSchema,
@@ -16,7 +16,7 @@ from xarray_schema.components import (
     NameSchema,
     ShapeSchema,
 )
-from xarray_schema.dataarray import CoordsSchema
+from xarrera.dataarray import CoordsSchema
 
 
 @pytest.fixture

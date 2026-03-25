@@ -28,22 +28,22 @@ CLASSIFIERS = [
 ]
 
 setup(
-    name='xarray-schema',
+    name='xarrera',
     description='Schema validation for Xarray objects',
     long_description=long_description,
     long_description_content_type='text/markdown',
     python_requires='>=3.8',
-    maintainer='Joe Hamman',
-    maintainer_email='joe@carbonplan.org',
+    maintainer='Javier Gatón',
+    maintainer_email='gaton@goa.uva.es',
     classifiers=CLASSIFIERS,
-    url='https://github.com/xarray-contrib/xarray-schema',
+    url='https://github.com/javgat/xarrera',
     packages=find_packages(exclude=('tests',)),
-    package_dir={'xarray_schema': 'xarray_schema'},
+    package_dir={'xarrera': 'xarrera'},
     include_package_data=True,
     install_requires=install_requires,
     license='MIT',
     zip_safe=False,
-    keywords=['xarray', 'schema'],
+    keywords=['xarray', 'schema', 'xarrera'],
     use_scm_version={'version_scheme': 'post-release', 'local_scheme': 'dirty-tag'},
     setup_requires=['setuptools_scm', 'setuptools>=30.3.0'],
 )

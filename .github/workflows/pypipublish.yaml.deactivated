@@ -65,8 +65,8 @@ jobs:
         if: github.event_name == 'push'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install dist/xarray_schema*.whl
-          python -c "import xarray_schema; print(xarray_schema.__version__)"
+          python -m pip install dist/xarrera*.whl
+          python -c "import xarrera; print(xarrera.__version__)"
 
   upload-to-pypi:
     needs: test-built-dist

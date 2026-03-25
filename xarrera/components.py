@@ -19,18 +19,31 @@ class DTypeSchema(BaseSchema):
     ------
     SchemaError
     '''
+
     _NP_ABSTRACT_TYPES = (
-        np.generic, np.number,
-        np.integer, np.signedinteger, np.unsignedinteger,
-        np.inexact, np.floating, np.complexfloating,
-        np.flexible, np.character,
+        np.generic,
+        np.number,
+        np.integer,
+        np.signedinteger,
+        np.unsignedinteger,
+        np.inexact,
+        np.floating,
+        np.complexfloating,
+        np.flexible,
+        np.character,
     )
 
     _NP_ABSTRACT_TYPES_STR = (
-        "generic", "number",
-        "integer", "signedinteger", "unsignedinteger",
-        "inexact", "floating", "complexfloating",
-        "flexible", "character",
+        'generic',
+        'number',
+        'integer',
+        'signedinteger',
+        'unsignedinteger',
+        'inexact',
+        'floating',
+        'complexfloating',
+        'flexible',
+        'character',
     )
 
     _json_schema = {'type': 'string'}
