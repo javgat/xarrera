@@ -95,6 +95,9 @@ omit = ["tasks.py"]
 plugins = ["numpy.typing.mypy_plugin"]
 allow_untyped_globals = true
 ignore_missing_imports = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
 
 [tool.mypy-setup]
 ignore_errors = true
