@@ -1,0 +1,106 @@
+[build-system]
+requires = ["setuptools>=30.3.0", "wheel", "setuptools_scm[toml]>=6.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xarrera"
+dynamic = ["version"]
+description = "Schema validation for Xarray objects"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Javier Gatón Herguedas", email = "gaton@goa.uva.es" },
+    { name = "CarbonPlan"},
+]
+maintainers = [
+    { name = "Javier Gatón Herguedas", email = "gaton@goa.uva.es" }
+]
+keywords = ["xarray", "schema", "xarrera"]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "xarray>=0.16",
+    "numpy>=1.21",
+]
+
+[project.optional-dependencies]
+dev = ["dask", "invoke", "jsonschema", "mypy", "pre-commit", "pytest", "pytest-cov", "types-jsonschema", "types-setuptools"]
+docs = ["sphinx", "sphinx_rtd_theme", "myst_parser", "sphinxcontrib-openapi", "linkify-it-py"]
+
+[project.urls]
+Homepage = "https://github.com/javgat/xarrera"
+Repository = "https://github.com/javgat/xarrera.git"
+Issues = "https://github.com/javgat/xarrera/issues"
+
+[tool.setuptools.packages.find]
+where = [""]
+include = ["xarrera*"]
+#exclude = ["*tests"]
+
+[tool.setuptools_scm]
+root = "."
+fallback_version = "1"
+version_scheme = "post-release"
+local_scheme = "dirty-tag"
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "xarrera/_version.py"
+versionfile_build = "xarrera/_version.py"
+tag_prefix = ""
+parentdir_prefix = ""
+
+[tool.flake8]
+exclude = ["docs"]
+max-line-length = 100
+extend-ignore = ["W291"]
+ignore = ["E203", "E266", "E501", "W503", "E722", "E402", "C901"]
+per-file-ignores = []
+max-complexity = 18
+select = ["B", "C", "E", "F", "W", "T4", "B9"]
+
+[tool.isort]
+known_first_party = ["xarrera"]
+known_third_party = ["dask", "invoke", "jsonschema", "numpy", "pytest", "xarray"]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+line_length = 100
+skip = ["docs/source/conf.py"]
+
+[tool.pytest.ini_options]
+log_cli = true
+log_level = "INFO"
+
+[tool.coverage.run]
+omit = ["tasks.py"]
+
+[tool.mypy]
+plugins = ["numpy.typing.mypy_plugin"]
+allow_untyped_globals = true
+ignore_missing_imports = true
+
+[tool.mypy-setup]
+ignore_errors = true
+
+[tool.mypy-tests]
+ignore_errors = true
+
+[tool.mypy-versioneer]
+ignore_errors = true
