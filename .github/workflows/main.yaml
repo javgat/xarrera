@@ -46,7 +46,7 @@ jobs:
         if: ${{ matrix.python-version == '3.10' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.xml
+          files: "./coverage.xml"
           fail_ci_if_error: false
 
   test-upstream:
