@@ -1,14 +1,30 @@
-# xarrera
+[![Tests](https://img.shields.io/github/actions/workflow/status/javgat/xarrera/main.yaml?style=for-the-badge&label=Tests)](https://github.com/javgat/xarrera/actions/workflows/main.yaml)
+[![codecov](https://img.shields.io/codecov/c/github/javgat/xarrera?style=for-the-badge&logo=codecov&token=AZ7L4NMLK1)](https://codecov.io/github/javgat/xarrera)
+[![PyPI version shields.io](https://img.shields.io/pypi/v/xarrera.svg?style=for-the-badge)](https://pypi.org/project/xarrera/)
+[![PyPI license](https://img.shields.io/pypi/l/xarrera.svg?style=for-the-badge)](https://pypi.python.org/project/xarrera/)
 
-Schema validation for Xarray
+<div align="center">
+    <h3>Xarrera</h3>
+    <p align="center">
+        Schema validation for Xarray
+    </p>
+    <br />
+    <a href="https://xarrera.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
+</div>
 
-[![CI](https://github.com/javgat/xarrera/actions/workflows/main.yaml/badge.svg)](https://github.com/javgat/xarrera/actions/workflows/main.yaml)
-[![codecov](https://codecov.io/github/javgat/xarrera/graph/badge.svg?token=AZ7L4NMLK1)](https://codecov.io/github/javgat/xarrera)
-[![MIT License](https://img.shields.io/badge/License-MIT-informational.svg)](https://opensource.org/licenses/MIT)
+## About the project
 
-## Installation
+Xarrera is an open source project that provides an API for performing data-format validation on Xarray objects.
 
-Install xarrera from PyPI:
+## Getting Started
+
+### Prerequisites
+
+- Python >= 3.9
+
+### Installation
+
+Install Xarrera from PyPI:
 
 ```shell
 pip install xarrera
@@ -26,9 +42,19 @@ Or install it from source:
 pip install git+https://github.com/javgat/xarrera
 ```
 
+Another option is cloning the repository and installing the python
+package and its dependencies by using:
+
+```sh
+git clone https://github.com/javgat/xarrera.git
+cd xarrera
+pip install -e .
+```
+
 ## Usage
 
-xarrera's API is modeled after [Pandera](https://pandera.readthedocs.io/en/stable/). The `DataArraySchema` and `DatasetSchema` objects both have `.validate()` methods.
+Xarrera's API is modeled after [Pandera](https://pandera.readthedocs.io/en/stable/). The `DataArraySchema`
+and `DatasetSchema` objects both have `.validate()` methods.
 
 The basic usage is as follows:
 
@@ -83,9 +109,95 @@ dtype_json = dtype_schema.to_json()
 
 ## Roadmap
 
-This is a very early prototype of a library. Some key things are missing:
+This is a very early prototype of a library, based on a library with multiple forks with small additions.
+The following key things to do are:
 
-1. Exceptions: Pandera accumulates schema exceptions and reports them all at once. Currently, we are a eagerly raising `SchemaErrors` when the are found.
+- [ ] Include features implemented on existing `xarray-schema` forks.
+- [ ] Include changes proposed in `xarray-schema` issues board.
+- [ ] Include features proposed in `xarray-schema` issues board into the Roadmap.
+- [ ] Contact former `xarray-schema` developers, forkers, and issue writers about `xarrera`.
+- ...
+- [ ] Accumulate schema exceptions and report them all at once.
+      Currently, we are a eagerly raising `SchemaErrors` when the are found.
+
+### Versioning
+
+Version changes and descriptions are stored in the <a href="./CHANGELOG.md">CHANGELOG</a>.
+This file is updated each time a new version is released.
+
+## Contributing
+
+### Development Guide
+
+1. **Install npm (required for pre-commit hooks)**
+
+   Some pre-commit hooks (e.g., for formatting or linting) depend on Node.js and npm.
+   You can install them via your system package manager, or download from [nodejs.org](https://nodejs.org) (npm is included).
+
+   For example, on Debian/Ubuntu:
+
+   ```sh
+   sudo apt update
+   sudo apt install nodejs npm
+   ```
+
+   If you use conda, you can also install it with:
+
+   ```shell
+   conda install -c conda-forge nodejs
+   ```
+
+2. **Install Pre-commit Hooks**
+
+   Install the `pre-commit` hooks to automatically check code styling:
+
+   ```sh
+   pre-commit install
+   ```
+
+3. **Install Python Dependencies**
+
+   Install the python package dependencies listed in the `requirements.txt` file, preferably in a python virtual enironment:
+
+   ```sh
+   pip install -r requirements.txt
+   # or
+   pip install -e .
+   ```
+
+### Testing
+
+1. **Install test dependencies**
+
+   Install de development dependencies with:
+
+   ```sh
+   pip install -r dev-requirements.txt
+   # or
+   pip install -e ".[dev]"
+   ```
+
+2. **Run the style check**
+
+   Run the `mypy` style check with:
+
+   ```sh
+   mypy xarrera tests
+   ```
+
+3. **Run the tests**
+
+   Run the tests with:
+
+   ```sh
+   pytest
+   ```
+
+   Generate the coverage with
+
+   ```sh
+   pytest --cov=./ --cov-report=xml --verbose
+   ```
 
 ## License
 
@@ -96,4 +208,13 @@ All the code in this repository is [MIT](https://choosealicense.com/licenses/mit
 This project was originally developed at [CarbonPlan](https://carbonplan.org/).
 It was transferred to the [xarray-contrib](https://github.com/xarray-contrib) organization in August 2022.
 
-Due to the inactivity in xarray-contrib, it was forked to xarrera in March 2026.
+Due to the inactivity in xarray-contrib, it was forked to Xarrera in March 2026.
+
+## Authors
+
+- **Javier Gatón Herguedas** - _Maintainer_ - [gaton@goa.uva.es](mailto:gaton@goa.uva.es)
+- **Joe Hamman** - _Initial Work_ - [joe@carbonplan.org](mailto:joe@carbonplan.org) - [CarbonPlan](https://carbonplan.org)
+- **Anderson Banihirwe** - _Initial Work_ - [anderson@carbonplan.org](mailto:anderson@carbonplan.org) - [CarbonPlan](https://carbonplan.org)
+- **Oriana Chegwidden** - _Initial Work_ - [CarbonPlan](https://carbonplan.org)
+- **Peter A. I. Forsyth** - _Initial Work_
+- **Raphael Hagen** - _Initial Work_ - [raphael@carbonplan.org](mailto:raphael@carbonplan.org) - [CarbonPlan](https://carbonplan.org)
