@@ -3,8 +3,8 @@
 Schema validation for Xarray
 
 [![CI](https://github.com/javgat/xarrera/actions/workflows/main.yaml/badge.svg)](https://github.com/javgat/xarrera/actions/workflows/main.yaml)
-[![codecov](https://codecov.io/gh/javgat/xarrera/branch/main/graph/badge.svg?token=EI729ZRFK0)](https://codecov.io/gh/javgat/xarrera)
-![MIT License](https://badgen.net/badge/license/MIT/blue)
+[![codecov](https://codecov.io/github/javgat/xarrera/graph/badge.svg?token=AZ7L4NMLK1)](https://codecov.io/github/javgat/xarrera)
+[![MIT License](https://img.shields.io/badge/License-MIT-informational.svg)](https://opensource.org/licenses/MIT)
 
 ## installation
 
