@@ -1,4 +1,4 @@
-Xarray-schema
+xarrera
 =============
 
 Schema validation for `Xarray`_ objects

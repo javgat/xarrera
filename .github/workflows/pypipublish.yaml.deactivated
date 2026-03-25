@@ -8,7 +8,7 @@ on:
 jobs:
   build-artifacts:
     runs-on: ubuntu-latest
-    if: github.repository == 'carbonplan/xarray-schema'
+    if: github.repository == 'javgat/xarrera'
     steps:
       - uses: actions/checkout@v6
         with:
@@ -33,7 +33,7 @@ jobs:
         run: |
           python -m twine check dist/*
           pwd
-          if [ -f dist/xarray-schema-unknown.tar.gz ]; then
+          if [ -f dist/xarrera-unknown.tar.gz ]; then
             echo "❌ INVALID VERSION NUMBER"
             exit 1
           else

@@ -1,34 +1,34 @@
-# xarray-schema
+# xarrera
 
 Schema validation for Xarray
 
-[![CI](https://github.com/xarray-contrib/xarray-schema/actions/workflows/main.yaml/badge.svg)](https://github.com/carbonplan/xarray-schema/actions/workflows/main.yaml)
-[![codecov](https://codecov.io/gh/xarray-contrib/xarray-schema/branch/main/graph/badge.svg?token=EI729ZRFK0)](https://codecov.io/gh/xarray-contrib/xarray-schema)
+[![CI](https://github.com/javgat/xarrera/actions/workflows/main.yaml/badge.svg)](https://github.com/javgat/xarrera/actions/workflows/main.yaml)
+[![codecov](https://codecov.io/gh/javgat/xarrera/branch/main/graph/badge.svg?token=EI729ZRFK0)](https://codecov.io/gh/javgat/xarrera)
 ![MIT License](https://badgen.net/badge/license/MIT/blue)
 
 ## installation
 
-Install xarray-schema from PyPI:
+Install xarrera from PyPI:
 
 ```shell
-pip install xarray-schema
+pip install xarrera
 ```
 
 Conda:
 
 ```shell
-conda install -c conda-forge xarray-schema
+conda install -c conda-forge xarrera
 ```
 
 Or install it from source:
 
 ```shell
-pip install git+https://github.com/xarray-contrib/xarray-schema
+pip install git+https://github.com/javgat/xarrera
 ```
 
 ## usage
 
-Xarray-schema's API is modeled after [Pandera](https://pandera.readthedocs.io/en/stable/). The `DataArraySchema` and `DatasetSchema` objects both have `.validate()` methods.
+xarrera's API is modeled after [Pandera](https://pandera.readthedocs.io/en/stable/). The `DataArraySchema` and `DatasetSchema` objects both have `.validate()` methods.
 
 The basic usage is as follows:
 

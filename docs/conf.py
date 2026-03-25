@@ -17,9 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'xarray-schema'
-copyright = '2022, CarbonPlan'
-author = 'CarbonPlan'
+project = 'xarrera'
+copyright = '2026, javgat'
+author = 'Javier Gatón'
 
 
 # -- General configuration ---------------------------------------------------
