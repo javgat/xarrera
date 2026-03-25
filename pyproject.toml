@@ -39,7 +39,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["dask", "invoke", "jsonschema", "mypy", "pre-commit", "pytest", "pytest-cov", "types-jsonschema", "types-setuptools"]
-docs = ["sphinx", "sphinx_rtd_theme", "myst_parser", "sphinxcontrib-openapi", "linkify-it-py"]
+docs = ["sphinx", "sphinx_rtd_theme", "sphinx_autodoc_typehints", "nbsphinx"]
 
 [project.urls]
 Homepage = "https://github.com/javgat/xarrera"
