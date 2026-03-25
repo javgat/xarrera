@@ -1,11 +1,11 @@
-.. currentmodule:: xarray_schema
+.. currentmodule:: xarrera
 
 .. _api:
 
 API reference
 =============
 
-This page contains a auto-generated summary of ``xarray-schema``'s API.
+This page contains a auto-generated summary of ``xarrera``'s API.
 
 Container schemas
 -----------------

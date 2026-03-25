@@ -21,35 +21,32 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Python
-        uses: actions/setup-python@v4.7.1
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
-      - uses: actions/cache@v3.3.2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/dev-requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          cache: "pip"
+          cache-dependency-path: "dev-requirements.txt"
       - run: |
           python -m pip install -r dev-requirements.txt
           python -m pip install --no-deps -e .
           python -m pip list
       - name: Type check with mypy
-        if: ${{ matrix.python-version }} == 3.9
+        if: ${{ matrix.python-version == '3.10' }}
         run: invoke mypy
       - name: Running Tests
         run: |
           python -m pytest --cov=./ --cov-report=xml --verbose
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        if: ${{ matrix.python-version }} == 3.9
+        uses: codecov/codecov-action@v5
+        if: ${{ matrix.python-version == '3.10' }}
         with:
-          file: ./coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: "./coverage.xml"
           fail_ci_if_error: false
 
   test-upstream:
@@ -57,20 +54,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.12"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Python
-        uses: actions/setup-python@v4.7.1
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
-      - uses: actions/cache@v3.3.2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/dev-requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          cache: "pip"
+          cache-dependency-path: "dev-requirements.txt"
       - run: |
           python -m pip install -r dev-requirements.txt
           python -m pip install --no-deps --upgrade \

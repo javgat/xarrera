@@ -2,8 +2,8 @@ dask
 jsonschema
 pytest
 pytest-cov
-mypy==0.982
-invoke==2.2.0
+mypy
+invoke
 types-jsonschema
-types-setuptools==68.2.0.0
+types-setuptools
 -r requirements.txt

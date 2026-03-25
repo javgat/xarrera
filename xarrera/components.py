@@ -20,17 +20,43 @@ class DTypeSchema(BaseSchema):
     SchemaError
     '''
 
+    _NP_ABSTRACT_TYPES = (
+        np.generic,
+        np.number,
+        np.integer,
+        np.signedinteger,
+        np.unsignedinteger,
+        np.inexact,
+        np.floating,
+        np.complexfloating,
+        np.flexible,
+        np.character,
+    )
+
+    _NP_ABSTRACT_TYPES_STR = (
+        'generic',
+        'number',
+        'integer',
+        'signedinteger',
+        'unsignedinteger',
+        'inexact',
+        'floating',
+        'complexfloating',
+        'flexible',
+        'character',
+    )
+
     _json_schema = {'type': 'string'}
 
     def __init__(self, dtype: DTypeLike) -> None:
-        if dtype in [np.floating, np.integer, np.signedinteger, np.unsignedinteger, np.generic]:
+        if dtype in type(self)._NP_ABSTRACT_TYPES:
             self.dtype = dtype
         else:
             self.dtype = np.dtype(dtype)
 
     @classmethod
     def from_json(cls, obj: str):
-        if obj in ['floating', 'integer', 'signedinteger', 'unsignedinteger', 'generic']:
+        if obj in cls._NP_ABSTRACT_TYPES_STR:
             dtype = getattr(np, obj)
         else:
             dtype = obj

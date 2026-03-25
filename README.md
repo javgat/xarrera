@@ -1,41 +1,41 @@
-# xarray-schema
+# xarrera
 
 Schema validation for Xarray
 
-[![CI](https://github.com/xarray-contrib/xarray-schema/actions/workflows/main.yaml/badge.svg)](https://github.com/carbonplan/xarray-schema/actions/workflows/main.yaml)
-[![codecov](https://codecov.io/gh/xarray-contrib/xarray-schema/branch/main/graph/badge.svg?token=EI729ZRFK0)](https://codecov.io/gh/xarray-contrib/xarray-schema)
-![MIT License](https://badgen.net/badge/license/MIT/blue)
+[![CI](https://github.com/javgat/xarrera/actions/workflows/main.yaml/badge.svg)](https://github.com/javgat/xarrera/actions/workflows/main.yaml)
+[![codecov](https://codecov.io/github/javgat/xarrera/graph/badge.svg?token=AZ7L4NMLK1)](https://codecov.io/github/javgat/xarrera)
+[![MIT License](https://img.shields.io/badge/License-MIT-informational.svg)](https://opensource.org/licenses/MIT)
 
-## installation
+## Installation
 
-Install xarray-schema from PyPI:
+Install xarrera from PyPI:
 
 ```shell
-pip install xarray-schema
+pip install xarrera
 ```
 
 Conda:
 
 ```shell
-conda install -c conda-forge xarray-schema
+conda install -c conda-forge xarrera
 ```
 
 Or install it from source:
 
 ```shell
-pip install git+https://github.com/xarray-contrib/xarray-schema
+pip install git+https://github.com/javgat/xarrera
 ```
 
-## usage
+## Usage
 
-Xarray-schema's API is modeled after [Pandera](https://pandera.readthedocs.io/en/stable/). The `DataArraySchema` and `DatasetSchema` objects both have `.validate()` methods.
+xarrera's API is modeled after [Pandera](https://pandera.readthedocs.io/en/stable/). The `DataArraySchema` and `DatasetSchema` objects both have `.validate()` methods.
 
 The basic usage is as follows:
 
 ```python
 import numpy as np
 import xarray as xr
-from xarray_schema import DataArraySchema, DatasetSchema, CoordsSchema
+from xarrera import DataArraySchema, DatasetSchema, CoordsSchema
 
 da = xr.DataArray(np.ones(4, dtype='i4'), dims=['x'], name='foo')
 
@@ -55,7 +55,7 @@ schema_ds.validate(da.to_dataset())
 Each component of the Xarray data model is implemented as a stand alone class:
 
 ```python
-from xarray_schema.components import (
+from xarrera.components import (
     DTypeSchema,
     DimsSchema,
     ShapeSchema,
@@ -81,16 +81,19 @@ dtype_schema.validate(da.dtype)
 dtype_json = dtype_schema.to_json()
 ```
 
-## roadmap
+## Roadmap
 
 This is a very early prototype of a library. Some key things are missing:
 
 1. Exceptions: Pandera accumulates schema exceptions and reports them all at once. Currently, we are a eagerly raising `SchemaErrors` when the are found.
 
-## license
+## License
 
 All the code in this repository is [MIT](https://choosealicense.com/licenses/mit/) licensed.
 
-## history
+## History
 
-This project was originally developed at [CarbonPlan](https://carbonplan.org/). It was transferred to the xarray-contrib organization in August 2022.
+This project was originally developed at [CarbonPlan](https://carbonplan.org/).
+It was transferred to the [xarray-contrib](https://github.com/xarray-contrib) organization in August 2022.
+
+Due to the inactivity in xarray-contrib, it was forked to xarrera in March 2026.

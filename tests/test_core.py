@@ -4,9 +4,9 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from xarray_schema import DataArraySchema, DatasetSchema
-from xarray_schema.base import SchemaError
-from xarray_schema.components import (
+from xarrera import DataArraySchema, DatasetSchema
+from xarrera.base import SchemaError
+from xarrera.components import (
     ArrayTypeSchema,
     AttrSchema,
     AttrsSchema,
@@ -16,7 +16,7 @@ from xarray_schema.components import (
     NameSchema,
     ShapeSchema,
 )
-from xarray_schema.dataarray import CoordsSchema
+from xarrera.dataarray import CoordsSchema
 
 
 @pytest.fixture
@@ -37,6 +37,11 @@ def ds():
         (DTypeSchema, np.integer, ['i4', 'int', np.int32], 'integer'),
         (DTypeSchema, np.int64, ['i8', np.int64], '<i8'),
         (DTypeSchema, '<i8', ['i8', np.int64], '<i8'),
+        (DTypeSchema, np.number, [np.int32, np.float64, np.complex128], 'number'),
+        (DTypeSchema, np.floating, [np.float32, np.float64], 'floating'),
+        (DTypeSchema, np.complexfloating, [np.complex64, np.complex128], 'complexfloating'),
+        (DTypeSchema, np.inexact, [np.float32, np.complex128], 'inexact'),
+        (DTypeSchema, np.character, [np.bytes_, np.str_], 'character'),
         (DimsSchema, ('foo', None), [('foo', 'bar'), ('foo', 'baz')], ['foo', None]),
         (DimsSchema, ('foo', 'bar'), [('foo', 'bar')], ['foo', 'bar']),
         (ShapeSchema, (1, 2, None), [(1, 2, 3), (1, 2, 5)], [1, 2, None]),
@@ -127,6 +132,9 @@ def test_attr_schema(type, value, validate, json):
     'component, schema_args, validate, match',
     [
         (DTypeSchema, np.integer, np.float32, r'.*float.*'),
+        (DTypeSchema, np.number, np.str_, r'.*str.*'),
+        (DTypeSchema, np.floating, np.int32, r'.*int32.*'),
+        (DTypeSchema, np.complexfloating, np.float64, r'.*float64.*'),
         (DimsSchema, ('foo', 'bar'), ('foo',), r'.*length.*'),
         (DimsSchema, ('foo', 'bar'), ('foo', 'baz'), r'.*mismatch.*'),
         (ShapeSchema, (1, 2, None), (1, 2), r'.*number of dimensions.*'),
