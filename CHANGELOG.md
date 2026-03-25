@@ -10,9 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased] - yyyy-mm-dd
 
 ### Changed
+
 - `DTypeSchema` now supports all NumPy abstract dtypes (e.g., `np.number`, `np.character`,
   etc.) instead of only a limited subset.
 
+### Fixed
+
+- Removed deprecated `pkg_resources` dependency to avoid errors with recent setuptools versions.
 
 ## [0.0.3] - 2022-04-06
 
