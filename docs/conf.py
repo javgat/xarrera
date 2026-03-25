@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'xarrera'
-copyright = '2026, javgat'
-author = 'Javier Gatón'
+copyright = '2022 CarbonPlan, 2026 Javier Gatón'
+author = 'CarbonPlan and Javier Gatón'
 
 
 # -- General configuration ---------------------------------------------------
