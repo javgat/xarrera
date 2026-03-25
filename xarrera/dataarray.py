@@ -53,15 +53,15 @@ class DataArraySchema(BaseSchema):
 
     def __init__(
         self,
-        dtype: Union[DTypeLike, DTypeSchema] = None,
-        shape: Union[ShapeT, ShapeSchema] = None,
-        dims: Union[DimsT, DimsSchema] = None,
-        name: Union[str, NameSchema] = None,
-        coords: Dict[str, Any] = None,
-        chunks: Union[ChunksT, ChunksSchema] = None,
+        dtype: Union[DTypeLike, DTypeSchema, None] = None,
+        shape: Union[ShapeT, ShapeSchema, None] = None,
+        dims: Union[DimsT, DimsSchema, None] = None,
+        name: Union[str, NameSchema, None] = None,
+        coords: Optional[Dict[str, Any]] = None,
+        chunks: Union[ChunksT, ChunksSchema, None] = None,
         array_type: Any = None,
-        attrs: Mapping[str, Any] = None,
-        checks: List[Callable] = None,
+        attrs: Optional[Mapping[str, Any]] = None,
+        checks: Optional[List[Callable]] = None,
     ) -> None:
         # see https://github.com/python/mypy/issues/3004
         self.dtype = dtype  # type: ignore

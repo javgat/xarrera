@@ -32,7 +32,7 @@ class DatasetSchema(BaseSchema):
         data_vars: Optional[Dict[Hashable, Optional[DataArraySchema]]] = None,
         coords: Union[CoordsSchema, Dict[Hashable, DataArraySchema], None] = None,
         attrs: Union[AttrsSchema, Dict[Hashable, AttrSchema], None] = None,
-        checks: Iterable[Callable] = None,
+        checks: Optional[Iterable[Callable]] = None,
     ) -> None:
         self.data_vars = data_vars  # type: ignore
         self.coords = coords  # type: ignore
