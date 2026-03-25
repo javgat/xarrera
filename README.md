@@ -6,7 +6,7 @@ Schema validation for Xarray
 [![codecov](https://codecov.io/github/javgat/xarrera/graph/badge.svg?token=AZ7L4NMLK1)](https://codecov.io/github/javgat/xarrera)
 [![MIT License](https://img.shields.io/badge/License-MIT-informational.svg)](https://opensource.org/licenses/MIT)
 
-## installation
+## Installation
 
 Install xarrera from PyPI:
 
@@ -26,7 +26,7 @@ Or install it from source:
 pip install git+https://github.com/javgat/xarrera
 ```
 
-## usage
+## Usage
 
 xarrera's API is modeled after [Pandera](https://pandera.readthedocs.io/en/stable/). The `DataArraySchema` and `DatasetSchema` objects both have `.validate()` methods.
 
@@ -81,16 +81,19 @@ dtype_schema.validate(da.dtype)
 dtype_json = dtype_schema.to_json()
 ```
 
-## roadmap
+## Roadmap
 
 This is a very early prototype of a library. Some key things are missing:
 
 1. Exceptions: Pandera accumulates schema exceptions and reports them all at once. Currently, we are a eagerly raising `SchemaErrors` when the are found.
 
-## license
+## License
 
 All the code in this repository is [MIT](https://choosealicense.com/licenses/mit/) licensed.
 
-## history
+## History
 
-This project was originally developed at [CarbonPlan](https://carbonplan.org/). It was transferred to the xarray-contrib organization in August 2022.
+This project was originally developed at [CarbonPlan](https://carbonplan.org/).
+It was transferred to the [xarray-contrib](https://github.com/xarray-contrib) organization in August 2022.
+
+Due to the inactivity in xarray-contrib, it was forked to xarrera in March 2026.
