@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [//]: # "## [unreleased] - yyyy-mm-dd"
 
-## [unreleased] - yyyy-mm-dd
+## [0.0.5] - 2026-03-26
 
 ### Added
 
@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Initial version that serves as the baseline for tracking changes in the change log since the fork
 from `xarray-contrib/xarray-schema`.
 
-[unreleased]: https://github.com/javgat/xarrera/compare/v0.0.4...HEAD
+[unreleased]: https://github.com/javgat/xarrera/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/javgat/xarrera/compare/v0.0.4...v0.0.5"
 [0.0.4]: https://github.com/javgat/xarrera/compare/0.0.3...v0.0.4"
 [0.0.3]: https://github.com/javgat/xarrera/releases/tag/0.0.3
