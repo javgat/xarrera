@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.4] - 2026-03-25
 
+> **Note:** This release includes improvements originally developed in the upstream
+> [`xarray-schema`](https://github.com/xarray-contrib/xarray-schema) project
+> between version 0.0.3 and its main branch. `xarrera`'s contributions are the `DTypeSchema`
+> change and the `pkg_resources` fix.
+
+### Added
+
+- Complete JSON serialization/deserialization (methods `to_json()` and `from_json()`,
+  `_json_schema` attribute, improved `.json` property) for all schema classes.
+
 ### Changed
 
 - `DTypeSchema` now supports all NumPy abstract dtypes (e.g., `np.number`, `np.character`,
@@ -17,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Removed deprecated `pkg_resources` dependency to avoid errors with recent setuptools versions.
+- Corrected validation in `ChunksSchema` when chunks are expected but the array is not chunked.
+- `AttrSchema` correctly raises `SchemaError` instead of only instantiating it.
+- Type hints and docstrings updated across several classes.
 
 ## [0.0.3] - 2022-04-06
 
