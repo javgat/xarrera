@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `DatasetSchema` validation now validates its coordinates (`CoordsSchema`).
+  > Based on work by [@calgray](https://github.com/calgray) and [@garciampred](https://github.com/garciampred)
 - Added dimension shape consistency validation across data variables and coordinates in `DatasetSchema`,
   and between `dims` and `shape` in `DataArraySchema`.
 

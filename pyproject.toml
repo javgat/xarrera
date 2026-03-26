@@ -13,8 +13,8 @@ authors = [
     { name = "Javier Gatón Herguedas", email = "gaton@goa.uva.es" },
     { name = "Joe Hamman", email = "joe@carbonplan.org" },
     { name = "Anderson Banihirwe", email = "anderson@carbonplan.org" },
-    { name = "Oriana Chegwidden"},
     { name = "Peter A. I. Forsyth"},
+    { name = "Oriana Chegwidden"},
     { name = "Raphael Hagen", email = "raphael@carbonplan.org" },
 ]
 maintainers = [
