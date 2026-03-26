@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [//]: # "## [unreleased] - yyyy-mm-dd"
 
+## [unreleased] - yyyy-mm-dd
+
+### Added
+
+- `DatasetSchema` validation now validates its coordinates (`CoordsSchema`).
+
 ## [0.0.4] - 2026-03-25
 
 > **Note:** This release includes improvements originally developed in the upstream

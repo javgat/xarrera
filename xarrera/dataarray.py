@@ -28,13 +28,15 @@ class DataArraySchema(BaseSchema):
         Shape of the DataArray. `None` may be used as a wildcard value. By default None
     dims : DimsT or DimsSchema, optional
         Dimensions of the DataArray.  `None` may be used as a wildcard value. By default None
+    name : str, optional
+        Name of the DataArray, by default None
     chunks : Union[bool, Dict[str, Union[int, None]]], optional
         If bool, specifies whether DataArray is chunked or not, agnostic to chunk sizes.
         If dict, includes the expected chunks for the DataArray, by default None
-    name : str, optional
-        Name of the DataArray, by default None
     array_type : Any, optional
         Type of the underlying data in a DataArray (e.g. `numpy.ndarray`), by default None
+    attrs: Mapping[str, Any], optional
+        Mapping of attribute names and their values, optional.
     checks : List[Callable], optional
         List of callables that take and return a DataArray, by default None
     '''
@@ -213,7 +215,7 @@ class DataArraySchema(BaseSchema):
         if self.chunks is not None:
             self.chunks.validate(da.chunks, da.dims, da.shape)
 
-        if self.attrs:
+        if self.attrs is not None:
             self.attrs.validate(da.attrs)
 
         if self.array_type is not None:
@@ -276,12 +278,12 @@ class CoordsSchema(BaseSchema):
     _json_schema = {
         'type': 'object',
         'properties': {
-            'require_all_keys': {
-                'type': 'boolean'
-            },  # Question: is this the same as JSON's additionalProperties?
+            'require_all_keys': {'type': 'boolean'},
             'allow_extra_keys': {'type': 'boolean'},
-            'coords': {'type': 'object'},
+            'coords': {'type': 'object', 'additionalProperties': DataArraySchema._json_schema},
         },
+        'required': ['coords'],
+        'additionalProperties': False,
     }
 
     def __init__(
