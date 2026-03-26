@@ -212,10 +212,10 @@ Due to the inactivity in xarray-contrib, it was forked to Xarrera in March 2026.
 
 ## Authors
 
-- **Javier Gatón Herguedas** - _Maintainer_ - [:octocat: @javgat](https://github.com/javgat) - [✉️ gaton@goa.uva.es](mailto:gaton@goa.uva.es)
-- **Callan Gray** - _Contributor_ - [:octocat: @calgray](https://github.com/calgray)
-- **Joe Hamman** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat: @jhamman](https://github.com/jhamman)
-- **Anderson Banihirwe** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat @andersy005](https://github.com/andersy005) - [✉️ anderson@carbonplan.org](mailto:anderson@carbonplan.org)
-- **Peter A. I. Forsyth** - _Initial Work_ - [:octocat: @paiforsyth](https://github.com/paiforsyth)
-- **Oriana Chegwidden** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat: @orianac](https://github.com/orianac)
-- **Raphael Hagen** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [✉️ raphael@carbonplan.org](mailto:raphael@carbonplan.org)
+- **Javier Gatón Herguedas** - _Maintainer_ - @javgat - [gaton@goa.uva.es](mailto:gaton@goa.uva.es)
+- **Callan Gray** - _Contributor_ - @calgray
+- **Joe Hamman** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - @jhamman
+- **Anderson Banihirwe** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - @andersy005 - [anderson@carbonplan.org](mailto:anderson@carbonplan.org)
+- **Peter A. I. Forsyth** - _Initial Work_ - @paiforsyth
+- **Oriana Chegwidden** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - @orianac
+- **Raphael Hagen** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [raphael@carbonplan.org](mailto:raphael@carbonplan.org)
