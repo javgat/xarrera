@@ -112,13 +112,13 @@ dtype_json = dtype_schema.to_json()
 This is a very early prototype of a library, based on a library with multiple forks with small additions.
 The following key things to do are:
 
-- [ ] Include features implemented on existing `xarray-schema` forks.
-- [ ] Include changes proposed in `xarray-schema` issues board.
-- [ ] Include features proposed in `xarray-schema` issues board into the Roadmap.
 - [ ] Contact former `xarray-schema` developers, forkers, and issue writers about `xarrera`.
-- ...
+- [ ] ...
+- [ ] String comparison using regex [xarray-schema~#9](https://github.com/xarray-contrib/xarray-schema/issues/9)
 - [ ] Accumulate schema exceptions and report them all at once.
       Currently, we are a eagerly raising `SchemaErrors` when the are found.
+- [ ] Improve SchemaError reported information.
+- [ ] Extract schema from xarray objects [xarray-schema~#45](https://github.com/xarray-contrib/xarray-schema/issues/45)
 
 ### Versioning
 
@@ -212,9 +212,10 @@ Due to the inactivity in xarray-contrib, it was forked to Xarrera in March 2026.
 
 ## Authors
 
-- **Javier Gatón Herguedas** - _Maintainer_ - [gaton@goa.uva.es](mailto:gaton@goa.uva.es)
-- **Joe Hamman** - _Initial Work_ - [joe@carbonplan.org](mailto:joe@carbonplan.org) - [CarbonPlan](https://carbonplan.org)
-- **Anderson Banihirwe** - _Initial Work_ - [anderson@carbonplan.org](mailto:anderson@carbonplan.org) - [CarbonPlan](https://carbonplan.org)
-- **Oriana Chegwidden** - _Initial Work_ - [CarbonPlan](https://carbonplan.org)
-- **Peter A. I. Forsyth** - _Initial Work_
-- **Raphael Hagen** - _Initial Work_ - [raphael@carbonplan.org](mailto:raphael@carbonplan.org) - [CarbonPlan](https://carbonplan.org)
+- **Javier Gatón Herguedas** - _Maintainer_ - [:octocat: @javgat](https://github.com/javgat) - [gaton@goa.uva.es](mailto:gaton@goa.uva.es)
+- **Callan Gray** - _Contributor_ - [:octocat: @calgray](https://github.com/calgray)
+- **Joe Hamman** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat: @jhamman](https://github.com/jhamman)
+- **Anderson Banihirwe** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat @andersy005](https://github.com/andersy005) - [anderson@carbonplan.org](mailto:anderson@carbonplan.org)
+- **Peter A. I. Forsyth** - _Initial Work_ - [:octocat: @paiforsyth](https://github.com/paiforsyth)
+- **Oriana Chegwidden** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat: @orianac](https://github.com/orianac)
+- **Raphael Hagen** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [raphael@carbonplan.org](mailto:raphael@carbonplan.org)

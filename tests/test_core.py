@@ -24,9 +24,10 @@ def ds():
     ds = xr.Dataset(
         {
             'x': xr.DataArray(np.arange(4) - 2, dims='x'),
-            'foo': xr.DataArray(np.ones(4, dtype='i4'), dims='x'),
+            'foo': xr.DataArray(np.ones(4, dtype='i4'), dims='x', attrs={'units': 'K'}),
             'bar': xr.DataArray(np.arange(8, dtype=np.float32).reshape(4, 2), dims=('x', 'y')),
-        }
+        },
+        attrs={'Creator': 'Xarrera'},
     )
     return ds
 
@@ -110,7 +111,7 @@ def test_component_schema(component, schema_args, validate, json):
     jsonschema.validate(schema.json, schema._json_schema)
 
     # json roundtrip
-    component.from_json(schema.json).json == json
+    assert component.from_json(schema.json).json == json
 
 
 @pytest.mark.parametrize(
@@ -156,15 +157,133 @@ def test_attr_schema(type, value, validate, json):
         (ChunksSchema, {'x': 2}, (((2, 3, 2),), ('x',), (7,)), r'.*did not match.*'),
         (ChunksSchema, {'x': 2}, (((2, 2, 3),), ('x',), (7,)), r'.*did not match.*'),
         (ChunksSchema, {'x': 2, 'y': -1}, (((2, 2), (5, 5)), ('x', 'y'), (4, 10)), r'.*(5).*'),
+        (
+            AttrsSchema,
+            {'foo': AttrSchema(type=int)},
+            [{'foo': 'bar'}],
+            r'attr .* is not of type.*',
+        ),
+        (
+            AttrsSchema,
+            {'foo': AttrSchema(value=1)},
+            [{'foo': 'bar'}],
+            r'attr .* != .*',
+        ),
+        (
+            CoordsSchema,
+            {'x': DataArraySchema(name='x')},
+            [{'x': xr.DataArray([0, 1], name='y')}],
+            r'name .* != .*',
+        ),
+        (
+            CoordsSchema,
+            {'x': DataArraySchema(dtype=np.str_)},
+            [{'x': xr.DataArray([0, 1])}],
+            r'dtype .* != .*',
+        ),
+        (
+            CoordsSchema,
+            {'x': DataArraySchema(dims=('x',))},
+            [{'x': xr.DataArray([0, 1], name='x')}],
+            r'dim mismatch in axis .* != .*',
+        ),
     ],
 )
 def test_component_raises_schema_error(component, schema_args, validate, match):
     schema = component(schema_args)
     with pytest.raises(SchemaError, match=match):
-        if component in [ChunksSchema]:  # special case construction
+        if component in (ChunksSchema, AttrsSchema, CoordsSchema):  # special case construction
             schema.validate(*validate)
         else:
             schema.validate(validate)
+
+
+@pytest.mark.parametrize(
+    'component, schema_args, schema_kwargs, validate, match',
+    [
+        (
+            AttrsSchema,
+            {'foo': AttrSchema(value=1)},
+            {'allow_extra_keys': False},
+            [{'foo': 'bar', 'x': 0}],
+            r'attrs has extra keys.*',
+        ),
+        (
+            CoordsSchema,
+            {'x': DataArraySchema()},
+            {'allow_extra_keys': False},
+            [{'x': xr.DataArray([0, 1]), 'y': xr.DataArray([0, 1])}],
+            r'coords has extra keys.*',
+        ),
+    ],
+)
+def test_component_kwargs_raises_schema_error(
+    component, schema_args, schema_kwargs, validate, match
+):
+    schema = component(schema_args, **schema_kwargs)
+    with pytest.raises(SchemaError, match=match):
+        if component in (ChunksSchema, AttrsSchema, CoordsSchema):  # special case construction
+            schema.validate(*validate)
+        else:
+            schema.validate(validate)
+
+
+@pytest.mark.parametrize(
+    'names, shapes, dimss, coordss, match',
+    [
+        (
+            ['v1', 'v2'],
+            [(2,), (3,)],
+            [('dim_1',), ('dim_1',)],
+            [None, None],
+            r"Inconsistent shape for dimension 'dim_1' in 'v2': expected 2, got 3",
+        ),
+        (
+            ['v1', 'v2'],
+            [(2, 3, 4), (2, 3, 3)],
+            [
+                (
+                    'dim_0',
+                    None,
+                    'dim_1',
+                ),
+                (
+                    'dim_0',
+                    None,
+                    'dim_1',
+                ),
+            ],
+            [None, None],
+            r"Inconsistent shape for dimension 'dim_1' in 'v2': expected 4, got 3",
+        ),
+        (
+            ['v1', 'v2'],
+            [(2,), (3,)],
+            [('dim_1',), ('dim_1',)],
+            [{'dim_1': DataArraySchema()}, None],
+            r"Inconsistent shape for dimension 'dim_1' in 'v2': expected 2, got 3",
+        ),
+    ],
+)
+def test_forbid_inconsistent_datasetschema(names, shapes, dimss, coordss, match):
+    with pytest.raises(ValueError, match=match):
+        _ = DatasetSchema(
+            data_vars={
+                n: DataArraySchema(shape=ShapeSchema(s), dims=d, coords=c)
+                for n, s, d, c in zip(names, shapes, dimss, coordss)
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    'shape, dims, match',
+    [
+        ((2, 3), ('dim_1',), r'Length of dims \(1\) != length of shape \(2\)'),
+    ],
+)
+def test_forbid_inconsistent_dataarrayschema(shape, dims, match):
+    with pytest.raises(ValueError, match=match):
+        _ = DataArraySchema(shape=ShapeSchema(shape), dims=dims)
 
 
 def test_chunks_schema_raises_for_invalid_chunks():
@@ -225,15 +344,19 @@ def test_dataset_empty_constructor():
     ds_schema = DatasetSchema()
     assert hasattr(ds_schema, 'validate')
     jsonschema.validate(ds_schema.json, ds_schema._json_schema)
-    ds_schema.json == {}
+    assert ds_schema.json == {}
 
 
 def test_dataset_example(ds):
     ds_schema = DatasetSchema(
         {
-            'foo': DataArraySchema(name='foo', dtype=np.int32, dims=['x']),
+            'foo': DataArraySchema(
+                name='foo', dtype=np.int32, dims=['x'], attrs={'units': AttrSchema(value='K')}
+            ),
             'bar': DataArraySchema(name='bar', dtype=np.floating, dims=['x', 'y']),
-        }
+        },
+        coords={'x': DataArraySchema(name='x', dtype=np.int64, dims=['x'])},
+        attrs={'Creator': AttrSchema(str)},
     )
 
     jsonschema.validate(ds_schema.json, ds_schema._json_schema)
@@ -252,7 +375,7 @@ def test_dataset_example(ds):
     # json roundtrip
     rt_schema = DatasetSchema.from_json(ds_schema.json)
     assert isinstance(rt_schema, DatasetSchema)
-    rt_schema.json == ds_schema.json
+    assert rt_schema.json == ds_schema.json
 
 
 def test_checks_ds(ds):

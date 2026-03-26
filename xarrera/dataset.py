@@ -14,6 +14,10 @@ class DatasetSchema(BaseSchema):
     ----------
     data_vars : mapping of variable names and DataArraySchemas, optional
         Per-variable DataArraySchema's, by default None
+    coords: Union[CoordsSchema, Dict[Hashable, DataArraySchema]], optional
+        Coordinates schema to validate against the Dataset, optional
+    attrs: Union[AttrsSchema, Dict[Hashable, AttrsSchema]], optional
+        Attribute names and their values, optional.
     checks : Iterable[Callable], optional
         Dataset wide checks, by default None
     '''
@@ -25,6 +29,8 @@ class DatasetSchema(BaseSchema):
             'coords': {'type': 'object'},
             'attrs': {'type': 'object'},
         },
+        'required': [],
+        'additionalProperties': False,
     }
 
     def __init__(
@@ -47,9 +53,9 @@ class DatasetSchema(BaseSchema):
                 k: DataArraySchema.from_json(v) for k, v in obj['data_vars'].items()
             }
         if 'coords' in obj:
-            kwargs['coords'] = {k: CoordsSchema.from_json(v) for k, v in obj['coords'].items()}
+            kwargs['coords'] = CoordsSchema.from_json(obj['coords'])
         if 'attrs' in obj:
-            kwargs['attrs'] = {k: AttrsSchema.from_json(v) for k, v in obj['attrs'].items()}
+            kwargs['attrs'] = AttrsSchema.from_json(obj['attrs'])
 
         return cls(**kwargs)
 
@@ -79,10 +85,10 @@ class DatasetSchema(BaseSchema):
                     else:
                         da_schema.validate(ds.data_vars[key])
 
-        if self.coords is not None:  # pragma: no cover
-            raise NotImplementedError('coords schema not implemented yet')
+        if self.coords is not None:
+            self.coords.validate(ds.coords)
 
-        if self.attrs:
+        if self.attrs is not None:
             self.attrs.validate(ds.attrs)
 
         if self.checks:
@@ -117,6 +123,34 @@ class DatasetSchema(BaseSchema):
             self._data_vars = None  # type: ignore
         else:
             raise ValueError('must set data_vars with a dict')
+        self.check_dims_consistency()
+
+    def check_dims_consistency(self):
+        if not hasattr(self, '_coords'):
+            return
+        das = []
+        if self.data_vars is not None:
+            das.extend(self.data_vars.items())
+        if self.coords is not None:
+            das.extend(self.coords.coords.items())
+        dims_shapes = {}
+        for name, da in das:
+            if da is None:
+                continue
+            if da.dims is None or da.shape is None:
+                continue
+            if da.dims.dims is None or da.shape.shape is None:
+                continue
+            for dim, shape in zip(da.dims.dims, da.shape.shape):
+                if dim is None:
+                    continue
+                if dim not in dims_shapes:
+                    dims_shapes[dim] = shape
+                elif dims_shapes[dim] != shape:
+                    raise ValueError(
+                        f"Inconsistent shape for dimension {dim!r} in {name!r}: "
+                        f"expected {dims_shapes[dim]}, got {shape}"
+                    )
 
     @property
     def coords(self) -> Optional[CoordsSchema]:
@@ -128,13 +162,17 @@ class DatasetSchema(BaseSchema):
             self._coords = value
         else:
             self._coords = CoordsSchema(value)
+        self.check_dims_consistency()
 
     @property
     def json(self):
-        obj = {'data_vars': {}, 'attrs': self.attrs.json if self.attrs is not None else {}}
+        obj = {}
         if self.data_vars:
+            obj['data_vars'] = {}
             for key, var in self.data_vars.items():
                 obj['data_vars'][key] = var.json
         if self.coords:
             obj['coords'] = self.coords.json
+        if self.attrs is not None:
+            obj['attrs'] = self.attrs.json
         return obj
