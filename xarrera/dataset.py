@@ -123,6 +123,34 @@ class DatasetSchema(BaseSchema):
             self._data_vars = None  # type: ignore
         else:
             raise ValueError('must set data_vars with a dict')
+        self.check_dims_consistency()
+
+    def check_dims_consistency(self):
+        if not hasattr(self, '_coords'):
+            return
+        das = []
+        if self.data_vars is not None:
+            das.extend(self.data_vars.items())
+        if self.coords is not None:
+            das.extend(self.coords.coords.items())
+        dims_shapes = {}
+        for name, da in das:
+            if da is None:
+                continue
+            if da.dims is None or da.shape is None:
+                continue
+            if da.dims.dims is None or da.shape.shape is None:
+                continue
+            for dim, shape in zip(da.dims.dims, da.shape.shape):
+                if dim is None:
+                    continue
+                if dim not in dims_shapes:
+                    dims_shapes[dim] = shape
+                elif dims_shapes[dim] != shape:
+                    raise ValueError(
+                        f"Inconsistent shape for dimension {dim!r} in {name!r}: "
+                        f"expected {dims_shapes[dim]}, got {shape}"
+                    )
 
     @property
     def coords(self) -> Optional[CoordsSchema]:
@@ -134,6 +162,7 @@ class DatasetSchema(BaseSchema):
             self._coords = value
         else:
             self._coords = CoordsSchema(value)
+        self.check_dims_consistency()
 
     @property
     def json(self):

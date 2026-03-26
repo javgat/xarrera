@@ -97,6 +97,7 @@ class DataArraySchema(BaseSchema):
             self._dims = value
         else:
             self._dims = DimsSchema(value)
+        self.check_dims_shape_consistency()
 
     @property
     def shape(self) -> Optional[ShapeSchema]:
@@ -108,6 +109,19 @@ class DataArraySchema(BaseSchema):
             self._shape = value
         else:
             self._shape = ShapeSchema(value)
+        self.check_dims_shape_consistency()
+
+    def check_dims_shape_consistency(self):
+        if not hasattr(self, '_dims'):
+            return
+        if self.dims is None or self.shape is None:
+            return
+        if self.dims.dims is None or self.shape.shape is None:
+            return
+        if len(self.dims.dims) != len(self.shape.shape):
+            raise ValueError(
+                f"Length of dims ({len(self.dims.dims)}) != length of shape ({len(self.shape.shape)})"
+            )
 
     @property
     def chunks(self) -> Optional[ChunksSchema]:

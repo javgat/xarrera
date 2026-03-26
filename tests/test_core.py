@@ -228,6 +228,64 @@ def test_component_kwargs_raises_schema_error(
             schema.validate(validate)
 
 
+@pytest.mark.parametrize(
+    'names, shapes, dimss, coordss, match',
+    [
+        (
+            ['v1', 'v2'],
+            [(2,), (3,)],
+            [('dim_1',), ('dim_1',)],
+            [None, None],
+            r"Inconsistent shape for dimension 'dim_1' in 'v2': expected 2, got 3",
+        ),
+        (
+            ['v1', 'v2'],
+            [(2, 3, 4), (2, 3, 3)],
+            [
+                (
+                    'dim_0',
+                    None,
+                    'dim_1',
+                ),
+                (
+                    'dim_0',
+                    None,
+                    'dim_1',
+                ),
+            ],
+            [None, None],
+            r"Inconsistent shape for dimension 'dim_1' in 'v2': expected 4, got 3",
+        ),
+        (
+            ['v1', 'v2'],
+            [(2,), (3,)],
+            [('dim_1',), ('dim_1',)],
+            [{'dim_1': DataArraySchema()}, None],
+            r"Inconsistent shape for dimension 'dim_1' in 'v2': expected 2, got 3",
+        ),
+    ],
+)
+def test_forbid_inconsistent_datasetschema(names, shapes, dimss, coordss, match):
+    with pytest.raises(ValueError, match=match):
+        _ = DatasetSchema(
+            data_vars={
+                n: DataArraySchema(shape=ShapeSchema(s), dims=d, coords=c)
+                for n, s, d, c in zip(names, shapes, dimss, coordss)
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    'shape, dims, match',
+    [
+        ((2, 3), ('dim_1',), r'Length of dims \(1\) != length of shape \(2\)'),
+    ],
+)
+def test_forbid_inconsistent_dataarrayschema(shape, dims, match):
+    with pytest.raises(ValueError, match=match):
+        _ = DataArraySchema(shape=ShapeSchema(shape), dims=dims)
+
+
 def test_chunks_schema_raises_for_invalid_chunks():
     with pytest.raises(ValueError, match=r'.*int.*'):
         schema = ChunksSchema(chunks=2)
