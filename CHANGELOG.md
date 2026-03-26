@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   > Based on work by [@calgray](https://github.com/calgray) and [@garciampred](https://github.com/garciampred)
 - Added dimension shape consistency validation across data variables and coordinates in `DatasetSchema`,
   and between `dims` and `shape` in `DataArraySchema`.
+- Added support for Python 3.13.
 
 ## [0.0.4] - 2026-03-25
 
@@ -27,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Complete JSON serialization/deserialization (methods `to_json()` and `from_json()`,
   `_json_schema` attribute, improved `.json` property) for all schema classes.
-- Now supporting Python 3.11 and 3.12
+- Now supporting Python 3.11 and 3.12.
 
 ### Changed
 
