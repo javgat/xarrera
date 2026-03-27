@@ -14,7 +14,14 @@
 
 ## About the project
 
-Xarrera is an open source project that provides an API for performing data-format validation on Xarray objects.
+Xarrera is an open source project that provides an API for performing data-format validation on
+[Xarray](https://docs.xarray.dev/) objects.
+Its API is inspired by [Pandera](https://pandera.readthedocs.io/), a popular validation library for
+[pandas](https://pandas.pydata.org/) DataFrames.
+
+Xarrera is a fork of [xarray-schema](https://github.com/xarray-contrib/xarray-schema).
+Because xarray-schema became inactive and remained unfinished, this fork was created to continue development,
+fix outstanding issues, and make the package available on PyPI.
 
 ## Getting Started
 
@@ -81,6 +88,7 @@ schema_ds.validate(da.to_dataset())
 Each component of the Xarray data model is implemented as a stand alone class:
 
 ```python
+import numpy as np
 from xarrera.components import (
     DTypeSchema,
     DimsSchema,
@@ -114,11 +122,13 @@ The following key things to do are:
 
 - [ ] Contact former `xarray-schema` developers, forkers, and issue writers about `xarrera`.
 - [ ] ...
-- [ ] String comparison using regex [xarray-schema~#9](https://github.com/xarray-contrib/xarray-schema/issues/9)
+- [ ] Support multiple allowed dtypes in `DataArraySchema` [#7](https://github.com/javgat/xarrera/issues/7).
+- [ ] String comparison using regex [xarray-schema~#9](https://github.com/xarray-contrib/xarray-schema/issues/9).
 - [ ] Accumulate schema exceptions and report them all at once.
       Currently, we are a eagerly raising `SchemaErrors` when the are found.
 - [ ] Improve SchemaError reported information.
-- [ ] Extract schema from xarray objects [xarray-schema~#45](https://github.com/xarray-contrib/xarray-schema/issues/45)
+- [ ] Allow required data variables to be satisfied by coordinates [#8](https://github.com/javgat/xarrera/issues/8).
+- [ ] Extract schema from xarray objects [xarray-schema~#45](https://github.com/xarray-contrib/xarray-schema/issues/45).
 
 ### Versioning
 
@@ -212,10 +222,10 @@ Due to the inactivity in xarray-contrib, it was forked to Xarrera in March 2026.
 
 ## Authors
 
-- **Javier Gatón Herguedas** - _Maintainer_ - [:octocat: @javgat](https://github.com/javgat) - [gaton@goa.uva.es](mailto:gaton@goa.uva.es)
-- **Callan Gray** - _Contributor_ - [:octocat: @calgray](https://github.com/calgray)
-- **Joe Hamman** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat: @jhamman](https://github.com/jhamman)
-- **Anderson Banihirwe** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat @andersy005](https://github.com/andersy005) - [anderson@carbonplan.org](mailto:anderson@carbonplan.org)
-- **Peter A. I. Forsyth** - _Initial Work_ - [:octocat: @paiforsyth](https://github.com/paiforsyth)
-- **Oriana Chegwidden** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [:octocat: @orianac](https://github.com/orianac)
+- **Javier Gatón Herguedas** - _Maintainer_ - [@javgat](https://github.com/javgat) - [gaton@goa.uva.es](mailto:gaton@goa.uva.es)
+- **Callan Gray** - _Contributor_ - [@calgray](https://github.com/calgray)
+- **Joe Hamman** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [@jhamman](https://github.com/jhamman)
+- **Anderson Banihirwe** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [@andersy005](https://github.com/andersy005) - [anderson@carbonplan.org](mailto:anderson@carbonplan.org)
+- **Peter A. I. Forsyth** - _Initial Work_ - [@paiforsyth](https://github.com/paiforsyth)
+- **Oriana Chegwidden** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [@orianac](https://github.com/orianac)
 - **Raphael Hagen** - [CarbonPlan](https://carbonplan.org) - _Initial Work_ - [raphael@carbonplan.org](mailto:raphael@carbonplan.org)
