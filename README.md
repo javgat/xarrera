@@ -14,14 +14,17 @@
 
 ## About the project
 
-Xarrera is an open source project that provides an API for performing data-format validation on
-[Xarray](https://docs.xarray.dev/) objects.
-Its API is inspired by [Pandera](https://pandera.readthedocs.io/), a popular validation library for
-[pandas](https://pandas.pydata.org/) DataFrames.
+Xarrera is a fork of the inactive [xarray-schema](https://github.com/xarray-contrib/xarray-schema)
+project. It provides an API for performing data-format validation on
+[Xarray](https://docs.xarray.dev/) objects, inspired by [Pandera](https://pandera.readthedocs.io/),
+a popular validation library for [pandas](https://pandas.pydata.org/) DataFrames.
 
-Xarrera is a fork of [xarray-schema](https://github.com/xarray-contrib/xarray-schema).
-Because xarray-schema became inactive and remained unfinished, this fork was created to continue development,
-fix outstanding issues, and make the package available on PyPI.
+This fork was created to continue development, fix outstanding issues like the deprecated
+`pkg_resources` dependency, and make the package available on PyPI.
+
+While [Pandera](https://pandera.readthedocs.io/) is adding similar Xarray validation support,
+it will require **`python` >= 3.10** and **`xarray` >= 2024.10**.
+Xarrera implements this functionality today, while allowing older dependency constraints.
 
 ## Getting Started
 
@@ -120,8 +123,6 @@ dtype_json = dtype_schema.to_json()
 This is a very early prototype of a library, based on a library with multiple forks with small additions.
 The following key things to do are:
 
-- [ ] Contact former `xarray-schema` developers, forkers, and issue writers about `xarrera`.
-- [ ] ...
 - [ ] Support multiple allowed dtypes in `DataArraySchema` [#7](https://github.com/javgat/xarrera/issues/7).
 - [ ] String comparison using regex [xarray-schema~#9](https://github.com/xarray-contrib/xarray-schema/issues/9).
 - [ ] Accumulate schema exceptions and report them all at once.
