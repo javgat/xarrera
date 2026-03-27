@@ -88,6 +88,7 @@ schema_ds.validate(da.to_dataset())
 Each component of the Xarray data model is implemented as a stand alone class:
 
 ```python
+import numpy as np
 from xarrera.components import (
     DTypeSchema,
     DimsSchema,
