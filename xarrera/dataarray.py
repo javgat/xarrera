@@ -13,6 +13,7 @@ from .components import (
     DTypeSchema,
     NameSchema,
     ShapeSchema,
+    SingleDTypeSchema,
 )
 from .types import ChunksT, DimsT, DTypeLike, ShapeT
 
@@ -55,7 +56,9 @@ class DataArraySchema(BaseSchema):
 
     def __init__(
         self,
-        dtype: Union[DTypeLike, DTypeSchema, None] = None,
+        dtype: Union[
+            DTypeLike, DTypeSchema, List[Union[DTypeLike, SingleDTypeSchema, None]], None
+        ] = None,
         shape: Union[ShapeT, ShapeSchema, None] = None,
         dims: Union[DimsT, DimsSchema, None] = None,
         name: Union[str, NameSchema, None] = None,
@@ -81,7 +84,10 @@ class DataArraySchema(BaseSchema):
         return self._dtype
 
     @dtype.setter
-    def dtype(self, value: Union[DTypeSchema, DTypeLike, None]):
+    def dtype(
+        self,
+        value: Union[DTypeLike, DTypeSchema, List[Union[DTypeLike, SingleDTypeSchema, None]], None],
+    ):
         if value is None or isinstance(value, DTypeSchema):
             self._dtype = value
         else:

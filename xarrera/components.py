@@ -8,6 +8,49 @@ from .types import ChunksT, DimsT, DTypeLike, ShapeT
 
 
 class DTypeSchema(BaseSchema):
+    '''Generic datatype schema that acts as a factory.
+
+    Depending on the arguments provided, it returns an instance of either
+    `SingleDTypeSchema` (for a single dtype) or `UnionDTypeSchema` (for
+    multiple allowed dtypes). This maintains backward compatibility with
+    previous usage where only a single dtype was supported.
+
+    Parameters
+    ----------
+    dtype : DTypeLike or tuple/list of DTypeLike
+        A single datatype definition (string, np.dtype, etc.) or a collection
+        of multiple allowed dtypes. If a collection is provided, a
+        `UnionDTypeSchema` is instantiated; otherwise a `SingleDTypeSchema`
+        is returned.
+
+    Returns
+    -------
+    SingleDTypeSchema or UnionDTypeSchema
+        An instance of the appropriate subclass based on the input.'''
+
+    def __new__(
+        cls,
+        dtype: Union[
+            Iterable['SingleDTypeSchema', DTypeLike, None], 'SingleDTypeSchema', DTypeLike
+        ],
+        *args,
+        **kwargs,
+    ):
+        if isinstance(dtype, Iterable) and not isinstance(dtype, str):
+            instance = super().__new__(UnionDTypeSchema)
+        else:
+            instance = super().__new__(SingleDTypeSchema)
+        instance.__init__(dtype, *args, **kwargs)
+        return instance
+
+    @classmethod
+    def from_json(cls, obj: Union[list, str]):
+        if isinstance(obj, str):
+            return SingleDTypeSchema.from_json(obj)
+        return UnionDTypeSchema.from_json(obj)
+
+
+class SingleDTypeSchema(DTypeSchema):
     '''Datatype schema
 
     Parameters
@@ -62,6 +105,20 @@ class DTypeSchema(BaseSchema):
             dtype = obj
         return cls(dtype)
 
+    def would_validate(self, dtype: DTypeLike) -> bool:
+        '''Check if the dtype would be valid or not
+
+        Parameters
+        ----------
+        dtype : Any
+            Dtype of the DataArray.
+
+        Returns
+        -------
+        valid : bool
+        '''
+        return np.issubdtype(dtype, self.dtype)
+
     def validate(self, dtype: DTypeLike) -> None:
         '''Validate dtype
 
@@ -70,7 +127,7 @@ class DTypeSchema(BaseSchema):
         dtype : Any
             Dtype of the DataArray.
         '''
-        if not np.issubdtype(dtype, self.dtype):
+        if not self.would_validate(dtype):
             raise SchemaError(f'dtype {dtype} != {self.dtype}')
 
     @property
@@ -80,6 +137,75 @@ class DTypeSchema(BaseSchema):
         else:
             # fallbacks
             return str(getattr(self.dtype, '__name__', str(self.dtype)))
+
+
+class UnionDTypeSchema(DTypeSchema):
+    '''Union Datatype schema. Allowing multiple dtypes to fit in.
+
+    Parameters
+    ----------
+    dtypes : Iterable of DTypeLike
+        List of valid datatype definitions, may be (string, np.dtype, etc.)
+
+    Raises
+    ------
+    SchemaError
+    '''
+
+    _json_schema = {'type': 'array', 'items': {'type': ['string', 'null']}}
+
+    _dtypes: Union[Iterable[SingleDTypeSchema], None]
+
+    def __init__(
+        self,
+        dtype: Union[
+            Iterable[SingleDTypeSchema, DTypeLike, None], SingleDTypeSchema, DTypeLike, None
+        ],
+    ):
+        self.dtypes = dtype
+
+    @property
+    def dtypes(self) -> Union[Iterable[SingleDTypeSchema], None]:
+        return self._dtypes
+
+    @dtypes.setter
+    def dtypes(
+        self,
+        values: Union[
+            Iterable[SingleDTypeSchema, DTypeLike, None], SingleDTypeSchema, DTypeLike, None
+        ],
+    ):
+        self._dtypes = []
+        if not isinstance(values, Iterable) or isinstance(values, str):
+            values = [values]
+        for value in values:
+            if value is None or isinstance(value, SingleDTypeSchema):
+                self._dtypes.append(value)
+            else:
+                self._dtypes.append(SingleDTypeSchema(value))
+
+    def validate(self, dtype: DTypeLike) -> None:
+        '''Validate dtype
+
+        Parameters
+        ----------
+        dtype : Any
+            Dtype of the DataArray.
+        '''
+        for sdtype in self.dtypes:
+            if sdtype.would_validate(dtype):
+                return
+        raise SchemaError(
+            f'dtype {dtype} not in [{', '.join(str(sdt.dtype) for sdt in self.dtypes)}]'
+        )
+
+    @classmethod
+    def from_json(cls, obj: list):
+        return cls([SingleDTypeSchema.from_json(o) for o in obj])
+
+    @property
+    def json(self) -> list:
+        return [sdt.json for sdt in self.dtypes]
 
 
 class DimsSchema(BaseSchema):

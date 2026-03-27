@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Support for multiple dtypes in `DTypeSchema`. The class now acts as a factory that returns instances of two
+  subclasses depending on the arguments:
+  - `SingleDTypeSchema`: maintains the original behaviour for a single dtype
+  - `UnionDTypeSchema`: validates against a set of allowed dtypes (`SingleDTypeSchema`), where any match succeeds.
+    Calling `DTypeSchema` as before remains backward compatible, returning a `SingleDTypeSchema` instance when
+    a single dtype is provided.
 - Added support for Python 3.14.
 
 ## [0.0.5] - 2026-03-26

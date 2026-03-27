@@ -15,6 +15,8 @@ from xarrera.components import (
     DTypeSchema,
     NameSchema,
     ShapeSchema,
+    SingleDTypeSchema,
+    UnionDTypeSchema,
 )
 from xarrera.dataarray import CoordsSchema
 
@@ -36,8 +38,17 @@ def ds():
     'component, schema_args, validate, json',
     [
         (DTypeSchema, np.integer, ['i4', 'int', np.int32], 'integer'),
+        (
+            DTypeSchema,
+            [np.integer, np.floating],
+            ['i4', 'int', np.int32, np.float32, 'float'],
+            ['integer', 'floating'],
+        ),
         (DTypeSchema, np.int64, ['i8', np.int64], '<i8'),
         (DTypeSchema, '<i8', ['i8', np.int64], '<i8'),
+        (SingleDTypeSchema, '<i8', ['i8', np.int64], '<i8'),
+        (DTypeSchema, ['<i8', '<i4'], ['i8', np.int64, np.int32], ['<i8', '<i4']),
+        (UnionDTypeSchema, ['<i8', '<i4'], ['i8', np.int64, np.int32], ['<i8', '<i4']),
         (DTypeSchema, np.number, [np.int32, np.float64, np.complex128], 'number'),
         (DTypeSchema, np.floating, [np.float32, np.float64], 'floating'),
         (DTypeSchema, np.complexfloating, [np.complex64, np.complex128], 'complexfloating'),
@@ -134,6 +145,9 @@ def test_attr_schema(type, value, validate, json):
     [
         (DTypeSchema, np.integer, np.float32, r'.*float.*'),
         (DTypeSchema, np.number, np.str_, r'.*str.*'),
+        (DTypeSchema, [np.floating, np.integer], np.str_, r'.*str.*'),
+        (SingleDTypeSchema, np.number, np.str_, r'.*str.*'),
+        (UnionDTypeSchema, [np.floating, np.integer], np.str_, r'.*str.*'),
         (DTypeSchema, np.floating, np.int32, r'.*int32.*'),
         (DTypeSchema, np.complexfloating, np.float64, r'.*float64.*'),
         (DimsSchema, ('foo', 'bar'), ('foo',), r'.*length.*'),
@@ -310,6 +324,9 @@ def test_dataarray_empty_constructor():
     'kind, component, schema_args',
     [
         ('dtype', DTypeSchema, 'i4'),
+        ('dtype', SingleDTypeSchema, 'i4'),
+        ('dtype', DTypeSchema, ['i4', 'i8']),
+        ('dtype', UnionDTypeSchema, ['i4', 'i8']),
         ('dims', DimsSchema, ('x', None)),
         ('shape', ShapeSchema, (2, None)),
         ('name', NameSchema, 'foo'),
