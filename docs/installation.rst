@@ -1,16 +1,17 @@
 Installation
 ------------
-Install from ``conda-forge``:
 
-.. code:: sh
-
-   conda install -c conda-forge xarrera
-
-or from ``PyPI``:
+Install from ``PyPI``:
 
 .. code:: sh
 
    python -m pip install xarrera
+
+or from ``conda-forge``:
+
+.. code:: sh
+
+   conda install -c conda-forge xarrera
 
 or from source, either directly from github:
 
@@ -23,7 +24,8 @@ or from a local copy:
 .. code:: sh
 
    git clone https://github.com/javgat/xarrera
-   python -m pip install ./xarrera
+   cd xarrera
+   pip install -e .
 
 Dependencies
 ~~~~~~~~~~~~
