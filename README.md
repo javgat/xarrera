@@ -114,11 +114,13 @@ The following key things to do are:
 
 - [ ] Contact former `xarray-schema` developers, forkers, and issue writers about `xarrera`.
 - [ ] ...
-- [ ] String comparison using regex [xarray-schema~#9](https://github.com/xarray-contrib/xarray-schema/issues/9)
+- [ ] Support multiple allowed dtypes in `DataArraySchema` [#7](https://github.com/javgat/xarrera/issues/7).
+- [ ] String comparison using regex [xarray-schema~#9](https://github.com/xarray-contrib/xarray-schema/issues/9).
 - [ ] Accumulate schema exceptions and report them all at once.
       Currently, we are a eagerly raising `SchemaErrors` when the are found.
 - [ ] Improve SchemaError reported information.
-- [ ] Extract schema from xarray objects [xarray-schema~#45](https://github.com/xarray-contrib/xarray-schema/issues/45)
+- [ ] Allow required data variables to be satisfied by coordinates [#8](https://github.com/javgat/xarrera/issues/8).
+- [ ] Extract schema from xarray objects [xarray-schema~#45](https://github.com/xarray-contrib/xarray-schema/issues/45).
 
 ### Versioning
 
